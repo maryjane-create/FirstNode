@@ -10,7 +10,7 @@ app.get('/api/courses', (request, response)=>{
 })
 
 app.get('/api/posts/:year/:month', (request, response)=>{
-    response.send(request.params)
+    response.send(request.query)
 })
 
 app.listen(5000, ()=>console.log('listening'))
