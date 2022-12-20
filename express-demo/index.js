@@ -43,6 +43,37 @@ app.post('api/courses', (request, response)=>{
 })
 
 
+app.put('api/courses/:id', (request, response)=>{
+    const {error}=validateCourse(request.body)
+    if (error){
+        response.status(400).send(result.error.details[0].message)
+        return
+    }
+    const foundCourse =courses.find(c=>c.id===parseInt(request.params.id))
+    if (!foundCourse)response.status(404).send('course with the given id is not found')
+    const result=validateCourse(request.body)
+    foundCourse.name=request.body.name
+    response.send(foundCourse)
+
+})
+
+function validateCourse(course){
+    const  schema={
+        name: Joi.string().min(3).required()
+    }
+}
+
+
+app.put('/api/courses/:id', (request, response)=>{
+    const foundCourse =courses.find(c=>c.id===parseInt(request.params.id))
+    if (!foundCourse)response.status(404).send('course with the given id is not found')
+    const index=courses.indexOf(foundCourse)
+    courses.splice(index, 1)
+    response.send(foundCourse)
+})
+
+
+
 
 
 app.listen(5000, ()=>console.log('listening'))
